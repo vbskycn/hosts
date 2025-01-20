@@ -1,52 +1,52 @@
-# 一键修改hostshosts
-一键修改hosts，让你的linux可以直连github,tmdb
+# GitHub Hosts 更新工具
 
+这是一个用于自动更新 GitHub 相关 hosts 配置的工具，可以帮助提升 GitHub 的访问速度。
 
+## 功能特点
 
-**如果你之前修改了hosts,可以一键恢复初始化hosts**
+- 自动获取最新的 GitHub hosts 配置
+- 自动备份原有的 hosts 文件（备份文件格式：/etc/hosts.backup.时间戳）
+- 使用特殊标记，不影响其他 hosts 配置
+- 自动刷新 DNS 缓存
+- 支持一键删除配置
 
-使用`curl`：
+## 使用方法
 
-```bash
-curl -fsSL https://github.zhoujie218.top/https://raw.githubusercontent.com/vbskycn/hosts/master/clean_hosts.sh | bash
+### 方法一：直接运行（推荐）
+
+```
+sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/vbskycn/hosts/refs/heads/master/update-github-hosts.sh)"
 ```
 
-使用`wget`：
+### 方法二：下载后运行
 
-```bash
-wget -qO- https://github.zhoujie218.top/https://raw.githubusercontent.com/vbskycn/hosts/master/clean_hosts.sh | bash
+1. 下载脚本：
+
+```
+curl -O https://raw.githubusercontent.com/vbskycn/hosts/refs/heads/master/update-github-hosts.sh
 ```
 
+2. 添加执行权限：
 
-
-**你可以使用`curl`或者`wget`来下载并执行这个程序。下面是两种不同的方法：**
-
-使用`curl`：
-
-```bash
-curl -fsSL https://github.zhoujie218.top/https://raw.githubusercontent.com/vbskycn/hosts/master/auto_hosts.sh | bash
+```
+chmod +x update-github-hosts.sh
 ```
 
-使用`wget`：
+3. 运行脚本：
 
-```bash
-wget -qO- https://github.zhoujie218.top/https://raw.githubusercontent.com/vbskycn/hosts/master/auto_hosts.sh | bash
+```
+sudo ./update-github-hosts.sh
 ```
 
-![image-20240515093447944](https://img-cloud.zhoujie218.top/2024/05/15/66441139cd969.png)
+### 删除 hosts 配置
 
-
-
-**可以定时每天3点自动执行**
-
-```bash
-crontab -e
+```
+sudo ./update-github-hosts.sh --remove
 ```
 
-然后，在文件末尾添加以下行：
+**注意事项：**
 
-```bash
-0 3 * * * curl -fsSL https://github.zhoujie218.top/https://raw.githubusercontent.com/vbskycn/hosts/master/auto_hosts.sh | bash && chmod +x auto_hosts.sh
-```
-
-保存并退出编辑器。cron 将会在每天的凌晨 3 点自动执行该脚本。
+- 脚本需要 root 权限运行
+- 每次运行都会自动备份原有的 hosts 文件
+- 使用 --remove 参数可以删除之前添加的配置
+- 脚本会自动处理已存在的配置，无需手动删除
